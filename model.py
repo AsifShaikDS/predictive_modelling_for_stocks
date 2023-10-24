@@ -16,6 +16,6 @@ from keras.callbacks import EarlyStopping
 from keras.optimizers import Adam
 from keras.models import load_model
 from keras.layers import LSTM
-from keras.utils.vis_utils import plot_model
+from keras.utils import vis_utils
 
 
