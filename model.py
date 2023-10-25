@@ -19,9 +19,11 @@ from keras.layers import LSTM
 from keras.utils import plot_model
 import pydot
 import graphviz
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '1' 
 
+import tensorflow as tf
 # from keras.utils import vis_utils
-
 
 #Get the Dataset
 df=pd.read_csv('MicrosoftStockData.csv',na_values=['null'],index_col='Date',parse_dates=True,infer_datetime_format=True)
@@ -49,7 +51,6 @@ scaler = MinMaxScaler()
 feature_transform = scaler.fit_transform(df[features])
 feature_transform= pd.DataFrame(columns=features, data=feature_transform, index=df.index)
 print(feature_transform.head())
-
 
 
 #Splitting to Training set and Test set
