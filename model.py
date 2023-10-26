@@ -76,10 +76,8 @@ for train_index, test_index in timesplit.split(feature_transform):
 
 
         history=lstm.fit(X_train, y_train, epochs=100, batch_size=8, verbose=1, shuffle=False)
-
+        
         y_pred= lstm.predict(X_test)
-
-
         #Predicted vs True Adj Close Value – LSTM
         plt.plot(y_test, label='True Value')
         plt.plot(y_pred, label='LSTM Value')
