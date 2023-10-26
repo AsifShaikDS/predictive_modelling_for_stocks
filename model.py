@@ -54,6 +54,7 @@ print(feature_transform.head())
 
 #Splitting to Training set and Test set
 timesplit= TimeSeriesSplit(n_splits=10)
+
 for train_index, test_index in timesplit.split(feature_transform):
         X_train, X_test = feature_transform[:len(train_index)], feature_transform[len(train_index): (len(train_index)+len(test_index))]
         y_train, y_test = output_var[:len(train_index)].values.ravel(), output_var[len(train_index): (len(train_index)+len(test_index))].values.ravel()
