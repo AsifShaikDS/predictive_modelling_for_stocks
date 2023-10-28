@@ -12,15 +12,20 @@ import os
 import tensorflow as tf
 from io import BytesIO
 # from tensorflow.keras.models import load_model
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 from flask_cors import CORS  # Import the 'CORS' extension
 import base64
 # to hide warning messages
 import warnings
 
 import pandas as pd
+import threading  # Import the 'threading' module
+import matplotlib
+matplotlib.use('Agg')
+from matplotlib import pyplot as plt
+# plt.use('Agg')
 
-df = pd.read_csv('./lstm-stock-predictor-backend/tickers.csv')
+df = pd.read_csv('./tickers.csv')
 list_of_tickers = df['DDD'].tolist()
 
 warnings.filterwarnings('ignore')
@@ -32,7 +37,7 @@ app = Flask(__name__)
 CORS(app)  # Enable CORS for your Flask app
 
 # app = Flask(__name__)
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '1'
+# os.environ['TF_CPP_MIN_LOG_LEVEL'] = '1'
 
 def get_shape(my_list):
     if isinstance(my_list, list):
@@ -127,6 +132,7 @@ def predict():
     plt.close()
     plot_data = base64.b64encode(buffer.getvalue()).decode('utf-8')
 
+
     shape_1d = get_shape(predicted_values)
     print(f"Shape of our list: {shape_1d}")
     # print(predicted_values.sha)
@@ -141,8 +147,26 @@ def predict():
 
 
 
-if __name__ == '__main':
+# if __name__ == '__main':
+#     app.run(debug=True)
+
+def run_flask_server():
     app.run(debug=True)
+
+if __name__ == '__main__':
+    # Suppress warnings related to TensorFlow (optional)
+    os.environ['TF_CPP_MIN_LOG_LEVEL'] = '1'
+
+    # Start the Flask server in a separate thread
+    flask_thread = threading.Thread(target=run_flask_server)
+    flask_thread.daemon = True  # Make the thread a daemon to stop it when the main program exits
+    flask_thread.start()
+
+    # Your non-GUI code can go here
+    # Continue with other code
+
+    # You can wait for the Flask thread to finish (optional)
+    flask_thread.join()
 
 
 # from flask import Flask, request, jsonify
