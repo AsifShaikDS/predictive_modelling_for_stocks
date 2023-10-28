@@ -3,7 +3,7 @@
 
 to run this application
 
-first start the backedn
+first start the backend
 ``````
 - cd lstm-stock-predictor-backend
 - python -m flask --app .\lstm_stock_predictor.py run
