@@ -15,6 +15,18 @@ from io import BytesIO
 import matplotlib.pyplot as plt
 from flask_cors import CORS  # Import the 'CORS' extension
 import base64
+# to hide warning messages
+import warnings
+
+import pandas as pd
+
+df = pd.read_csv('./lstm-stock-predictor-backend/tickers.csv')
+list_of_tickers = df['DDD'].tolist()
+
+warnings.filterwarnings('ignore')
+
+
+
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for your Flask app
@@ -114,10 +126,7 @@ def predict():
     plt.savefig(buffer, format='png')
     plt.close()
     plot_data = base64.b64encode(buffer.getvalue()).decode('utf-8')
-    # return jsonify({'predicted_values': predicted_values.tolist()})
-    # return jsonify({'predicted_values': predicted_values})
-    # Example usage:
-    # my_list_1d = [1, 2, 3, 4]
+
     shape_1d = get_shape(predicted_values)
     print(f"Shape of our list: {shape_1d}")
     # print(predicted_values.sha)
@@ -128,7 +137,7 @@ def predict():
     serializable_values = convert_to_json_serializable(predicted_values)
 
     # Return the predicted values as JSON
-    return jsonify({'predicted_values': serializable_values, 'plot_data': plot_data})
+    return jsonify({'predicted_values': serializable_values, 'plot_data': plot_data, 'list_of_tickers': list_of_tickers})
 
 
 
