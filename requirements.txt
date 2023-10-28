@@ -5,3 +5,4 @@ scikit-learn
 keras
 tensorflow
 yfinance
+get_all_tickers
