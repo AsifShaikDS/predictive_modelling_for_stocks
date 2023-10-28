@@ -5,3 +5,5 @@ scikit-learn
 keras
 tensorflow
 yfinance
+Flask
+flask-cors
