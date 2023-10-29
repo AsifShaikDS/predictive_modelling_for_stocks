@@ -36,16 +36,14 @@ import matplotlib.pyplot as plt
 stock_symbol = 'AAPL'  # Change this to your desired stock symbol
 start_date = '2010-01-01'
 end_date = '2020-12-31'
+n = 30  # Number of days to shift for prediction
 
 # Fetch historical stock data using pandas_datareader
 stock_data = web.DataReader(stock_symbol, data_source='yahoo', start=start_date, end=end_date)
-
-# Create a DataFrame with the 'Adj Close' prices
 df = pd.DataFrame(data=stock_data['Adj Close'])
 
 # Create a new column for the "Prediction" shifted 'n' units up
-n = 30  # Number of days to shift for prediction
-df['Prediction'] = df[['Adj Close']].shift(-n)
+df['Prediction'] = df['Adj Close'].shift(-n)
 
 # Create the feature dataset (X) and the target dataset (y)
 X = np.array(df.drop(['Prediction'], 1))
@@ -74,4 +72,14 @@ plt.xlabel('Date')
 plt.ylabel('Stock Price')
 plt.legend()
 plt.show()
+
+# Print the model's performance on the test data
+accuracy = model.score(X_test, y_test)
+print(f"Model Accuracy: {accuracy}")
+
+# Predict the stock price for the next day
+last_price = df['Adj Close'].iloc[-1]
+next_day_prediction = model.predict([[last_price]])[0]
+print(f"Predicted Stock Price for the Next Day: {next_day_prediction}")
+
 
