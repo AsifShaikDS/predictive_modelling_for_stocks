@@ -24,9 +24,62 @@
 # if __name__ == '__main__':
 #     client_app.run()  # Run on a different port
 
+import numpy as np
 import pandas as pd
+import datetime
+import pandas_datareader.data as web
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+import matplotlib.pyplot as plt
 
-df = pd.read_csv('./lstm-stock-predictor-backend/tickers.csv')
-list_of_tickers = df['DDD'].tolist()
+# Define the stock and the date range for historical data
+stock_symbol = 'AAPL'  # Change this to your desired stock symbol
+start_date = '2010-01-01'
+end_date = '2020-12-31'
+n = 30  # Number of days to shift for prediction
 
-print(list_of_tickers)
+# Fetch historical stock data using pandas_datareader
+stock_data = web.DataReader(stock_symbol, data_source='yahoo', start=start_date, end=end_date)
+df = pd.DataFrame(data=stock_data['Adj Close'])
+
+# Create a new column for the "Prediction" shifted 'n' units up
+df['Prediction'] = df['Adj Close'].shift(-n)
+
+# Create the feature dataset (X) and the target dataset (y)
+X = np.array(df.drop(['Prediction'], 1))
+X = X[:-n]
+y = np.array(df['Prediction'])
+y = y[:-n]
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+
+# Create and train the linear regression model
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+# Get the last 'n' rows of the feature dataset
+x_forecast = X[-n:]
+
+# Make predictions for the next 'n' days
+y_pred = model.predict(x_forecast)
+
+# Plot the predictions and the actual data
+plt.figure(figsize=(12, 6))
+plt.plot(df.index[-n:], y_pred, label="Predicted Prices")
+plt.plot(df.index[-n:], df['Adj Close'][-n:], label="Actual Prices")
+plt.xlabel('Date')
+plt.ylabel('Stock Price')
+plt.legend()
+plt.show()
+
+# Print the model's performance on the test data
+accuracy = model.score(X_test, y_test)
+print(f"Model Accuracy: {accuracy}")
+
+# Predict the stock price for the next day
+last_price = df['Adj Close'].iloc[-1]
+next_day_prediction = model.predict([[last_price]])[0]
+print(f"Predicted Stock Price for the Next Day: {next_day_prediction}")
+
+
