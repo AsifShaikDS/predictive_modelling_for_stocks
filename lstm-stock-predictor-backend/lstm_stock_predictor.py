@@ -23,7 +23,7 @@ import threading  # Import the 'threading' module
 import matplotlib
 matplotlib.use('Agg')
 from matplotlib import pyplot as plt
-# plt.use('Agg')
+
 
 df = pd.read_csv('./tickers.csv')
 list_of_tickers = df['DDD'].tolist()
@@ -83,7 +83,7 @@ def predict():
     feature_transform = pd.DataFrame(columns=features, data=feature_transform, index=df.index)
 
     # Splitting into Training set and Test set
-    timesplit = TimeSeriesSplit(n_splits=5)
+    timesplit = TimeSeriesSplit(n_splits=10)
 
     true_values = []
     predicted_values = []
@@ -105,7 +105,7 @@ def predict():
         lstm.compile(loss='mean_squared_error', optimizer='adam')
 
         # Training the LSTM model
-        history = lstm.fit(X_train, y_train, epochs=50, batch_size=16, verbose=0, shuffle=False)
+        history = lstm.fit(X_train, y_train, epochs=100, batch_size=16, verbose=1, shuffle=False)
 
         # Predicting stock prices
         y_pred = lstm.predict(X_test)
@@ -114,10 +114,15 @@ def predict():
         true_values.append(y_test)
         predicted_values.append(y_pred)
 
-    # Display all the plots at once
+    # Calculate the number of subplots dynamically based on the number of folds
+    num_folds = len(true_values)
+    num_rows = (num_folds // 3) + (1 if num_folds % 3 != 0 else 0)
+    num_cols = min(num_folds, 3)
+
+    # Create subplots dynamically
     plt.figure(figsize=(12, 6))  # Adjust the figure size as needed
-    for i in range(len(true_values)):
-        plt.subplot(2, 3, i + 1)  # Create subplots for each fold
+    for i in range(num_folds):
+        plt.subplot(num_rows, num_cols, i + 1)  # Create subplots for each fold
         plt.plot(true_values[i], label='True Value')
         plt.plot(predicted_values[i], label='LSTM Value')
         plt.title(f'Fold {i + 1}')

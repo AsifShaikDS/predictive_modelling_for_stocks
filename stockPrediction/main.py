@@ -8,9 +8,25 @@ from plotly import graph_objs as go
 START = "2015-01-01"
 TODAY = date.today().strftime("%Y-%m-%d")
 
+# Disable Streamlit's default header
+st.markdown(
+    """
+    <style>
+        .reportview-container .main .block-container {
+            max-width: 1200px;
+            padding-top: 2rem;
+            padding-right: 2rem;
+            padding-left: 2rem;
+            padding-bottom: 2rem;
+        }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
 st.title('Stock Forecast App')
 
-stocks = ('GOOG', 'AAPL', 'MSFT', 'GME')
+stocks = ('GOOG', 'AAPL', 'MSFT', 'GME', 'AMZN')
 selected_stock = st.selectbox('Select dataset for prediction', stocks)
 
 n_years = st.slider('Years of prediction:', 1, 10)
