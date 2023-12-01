@@ -3,6 +3,15 @@ pipeline {
 
     stages {
 
+        stage('Setup') {
+            steps {
+                script {
+                    sh "docker stop app || true"
+                    sh "docker rm app || true"
+                }
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 // dir('stockPrediction/') {
