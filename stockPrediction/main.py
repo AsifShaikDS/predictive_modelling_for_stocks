@@ -8,6 +8,7 @@ from plotly import graph_objs as go
 START = "2015-01-01"
 TODAY = date.today().strftime("%Y-%m-%d")
 
+print("just want to check re-build")
 # Disable Streamlit's default header
 st.markdown(
     """
