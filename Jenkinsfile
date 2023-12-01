@@ -6,8 +6,8 @@ pipeline {
         stage('Setup') {
             steps {
                 script {
-                    sh "docker stop app || true"
-                    sh "docker rm app || true"
+                    sh "docker stop app_container || true"
+                    sh "docker rm app_container || true"
                 }
             }
         }
@@ -27,7 +27,8 @@ pipeline {
 
         stage('Run Docker Image') {
             steps {
-                sh "docker run -d -p 4000:80 app"
+                sh 'docker run -d -p 4000:80 --name app_container app'
+
             }
         }
 
@@ -45,8 +46,8 @@ pipeline {
         always {
             // Clean up or perform other actions after the build
             cleanWs()
-            sh "docker stop app || true"
-            sh "docker rm app || true"
+            sh "docker stop app_container || true"
+            sh "docker rm app_container || true"
         }
     }
 }
