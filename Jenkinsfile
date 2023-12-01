@@ -46,8 +46,6 @@ pipeline {
         always {
             // Clean up or perform other actions after the build
             cleanWs()
-            sh "docker stop app_container || true"
-            sh "docker rm app_container || true"
         }
     }
 }
