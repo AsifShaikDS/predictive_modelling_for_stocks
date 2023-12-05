@@ -9,7 +9,6 @@ START = "2015-01-01"
 TODAY = date.today().strftime("%Y-%m-%d")
 
 print("just want to check re-build")
-print("just want to check re-build")
 # Disable Streamlit's default header
 st.markdown(
     """
@@ -28,7 +27,7 @@ st.markdown(
 
 st.title('Stock Forecast App')
 
-stocks = ('GOOG', 'AAPL', 'MSFT', 'GME', 'AMZN')
+stocks = ('GOOG', 'MSFT', 'GME', 'AMZN')
 selected_stock = st.selectbox('Select dataset for prediction', stocks)
 
 n_years = st.slider('Years of prediction:', 1, 10)
