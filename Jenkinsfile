@@ -12,7 +12,7 @@ pipeline {
                         sh "docker rm app_container || true"
                     } catch (Exception e) {
                         currentBuild.result = 'FAILURE'
-                        emailext attachLog: true, body: "Build failed! Error: ${e.message}", subject: "Build Failure", to: "shaik.asif20@st.niituniversity.in"
+                        emailext attachLog: true, body: "Build failed! Error: ${e.message}", subject: "Build Failure", to: "shaik.asif2@st.niituniversity.in; shifa.siddiqui20@st.niituniversity.in; dasari.rao20@st.niituniversity.in"
                         echo "Email sent successfully!"
                         error "Build failed"
                     }
@@ -33,7 +33,7 @@ pipeline {
                         sh 'docker build -t app ./stockPrediction/'
                     } catch (Exception e) {
                         currentBuild.result = 'FAILURE'
-                        emailext attachLog: true, body: "Build failed! Error: ${e.message}", subject: "Build Failure", to: "shaik.asif20@st.niituniversity.in"
+                        emailext attachLog: true, body: "Build failed! Error: ${e.message}", subject: "Build Failure", to: "shaik.asif2@st.niituniversity.in; shifa.siddiqui20@st.niituniversity.in; dasari.rao20@st.niituniversity.in"
                         echo "Email sent successfully!"
                         error "Build failed"
                     }
@@ -47,12 +47,11 @@ pipeline {
 
         stage('Run Docker Image') {
             steps {
-                
                 try {
                         sh 'docker run -d -p 4000:80 --name app_container app'
                     } catch (Exception e) {
                         currentBuild.result = 'FAILURE'
-                        emailext attachLog: true, body: "Build failed! Error: ${e.message}", subject: "Build Failure", to: "shaik.asif20@st.niituniversity.in"
+                        emailext attachLog: true, body: "Build failed! Error: ${e.message}", subject: "Build Failure", to: "shaik.asif2@st.niituniversity.in; shifa.siddiqui20@st.niituniversity.in; dasari.rao20@st.niituniversity.in"
                         echo "Email sent successfully!"
                         error "Build failed"
                     }
@@ -64,12 +63,11 @@ pipeline {
             steps {
                 // Wait for the container to start (you can adjust the sleep time as needed)
                 script {
-                    
                     try {
                         sleep 10
                     } catch (Exception e) {
                         currentBuild.result = 'FAILURE'
-                        emailext attachLog: true, body: "Build failed! Error: ${e.message}", subject: "Build Failure", to: "shaik.asif20@st.niituniversity.in"
+                        emailext attachLog: true, body: "Build failed! Error: ${e.message}", subject: "Build Failure", to: "shaik.asif2@st.niituniversity.in; shifa.siddiqui20@st.niituniversity.in; dasari.rao20@st.niituniversity.in"
                         echo "Email sent successfully!"
                         error "Build failed"
                     }
@@ -144,10 +142,10 @@ pipeline {
 
 //         success {
 //             // Send email notification on success
-//             // emailext attachLog: true, body: "Build failed! Error: ${e.message}", subject: "Build Failure", to: "shaik.asif20@st.niituniversity.in"
+//             // emailext attachLog: true, body: "Build failed! Error: ${e.message}", subject: "Build Failure", to: "shaik.asif2@st.niituniversity.in; shifa.siddiqui20@st.niituniversity.in; dasari.rao20@st.niituniversity.in"
 //             emailext subject: "Build Successful: ${currentBuild.fullDisplayName}",
 //                       body: "Build successful for job ${env.JOB_NAME}.\n\n${BUILD_URL}",
-//                       to: "shaik.asif20@st.niituniversity.in",
+//                       to: "shaik.asif2@st.niituniversity.in; shifa.siddiqui20@st.niituniversity.in; dasari.rao20@st.niituniversity.in",
 //                       attachLog: true
 //         }
 
@@ -155,7 +153,7 @@ pipeline {
 //             // Send email notification on failure
 //             emailext subject: "Build Failed: ${currentBuild.fullDisplayName}",
 //                       body: "Build failed for job ${env.JOB_NAME}.\n\n${BUILD_URL}",
-//                       to: "shaik.asif20@st.niituniversity.in",
+//                       to: "shaik.asif2@st.niituniversity.in; shifa.siddiqui20@st.niituniversity.in; dasari.rao20@st.niituniversity.in",
 //                       attachLog: true
 //         }
 //     }
