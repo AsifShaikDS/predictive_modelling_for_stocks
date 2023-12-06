@@ -62,7 +62,7 @@ pipeline {
             // Send email notification on success
             emailext subject: "Build Successful: ${currentBuild.fullDisplayName}",
                       body: "Build successful for job ${env.JOB_NAME}.\n\n${BUILD_URL}",
-                      to: "shaik.asif2@st.niituniversity.in; shifa.siddiqui20@st.niituniversity.in; dasari.rao20@st.niituniversity.in",
+                      to: "shaik.asif2@st.niituniversity.in",
                       attachLog: true
         }
 
@@ -70,7 +70,7 @@ pipeline {
             // Send email notification on failure
             emailext subject: "Build Failed: ${currentBuild.fullDisplayName}",
                       body: "Build failed for job ${env.JOB_NAME}.\n\n${BUILD_URL}",
-                      to: "shaik.asif2@st.niituniversity.in; shifa.siddiqui20@st.niituniversity.in; dasari.rao20@st.niituniversity.in",
+                      to: "shaik.asif2@st.niituniversity.in",
                       attachLog: true
         }
     }
