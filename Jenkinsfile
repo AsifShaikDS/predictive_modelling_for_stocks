@@ -7,15 +7,8 @@ pipeline {
             steps {
                 script {
                     
-                    try {
                         sh "docker stop app_container || true"
                         sh "docker rm app_container || true"
-                    } catch (Exception e) {
-                        currentBuild.result = 'FAILURE'
-                        emailext attachLog: true, body: "Build failed! Error: ${e.message}", subject: "Build Failure", to: "shaik.asif2@st.niituniversity.in; shifa.siddiqui20@st.niituniversity.in; dasari.rao20@st.niituniversity.in"
-                        echo "Email sent successfully!"
-                        error "Build failed"
-                    }
                 }
             }
 
