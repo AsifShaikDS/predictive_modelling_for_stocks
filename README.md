@@ -15,3 +15,16 @@ then start front end
 - npm install
 - npm start
 ``````
+
+
+
+for stocks app
+
+Pre requirements:
+1. Docker should be installed
+2. Jenkins should be installed
+
+```
+- cd stockPrediction
+- streamlit run main.py 
+```
