@@ -79,11 +79,13 @@ pipeline {
 
         stage('Run Docker Image') {
             steps {
-                try {
-                    sh 'docker run -d -p 4000:80 --name app_container app'
-                } catch (Exception e) {
-                    currentBuild.result = 'FAILURE'
-                    error("Failed to run Docker image: ${e.message}")
+                script {
+                    try {
+                        sh 'docker run -d -p 4000:80 --name app_container app'
+                    } catch (Exception e) {
+                        currentBuild.result = 'FAILURE'
+                        error("Failed to run Docker image: ${e.message}")
+                    }
                 }
             }
         }
