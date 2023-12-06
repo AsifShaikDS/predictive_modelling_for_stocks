@@ -5,8 +5,15 @@ pipeline {
         stage('Setup') {
             steps {
                 script {
-                    sh "docker stop app_container || true"
-                    sh "docker rm app_container || true"
+
+                    try {
+                        sh "docker stop app_container || true"
+                        sh "docker rm app_container || true"
+                    } catch (Exception e) {
+                        currentBuild.result = 'FAILURE'
+                        error("Failed to wait for Docker container: ${e.message}")
+                    }
+                    
                 }
             }
         }
